@@ -1,2 +1,6 @@
 # PokemonGame
-Pokemon Game Files
+This is a solo project started in early 2020 that is being moved to github for better organization anc accessibliity
+
+Please do NOT use this without contacting me.
+
+Discord: Ganza#0001
