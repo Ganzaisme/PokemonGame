@@ -1,0 +1,86 @@
+using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    
+    namespace PokemonPocket
+    {
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                //PokemonMaster list for checking pokemon evolution availability.    
+                List<PokemonMaster> pokemonMasters = new List<PokemonMaster>(){
+                new PokemonMaster("Pikachu", 2, "Raichu"),
+                new PokemonMaster("Eevee", 3, "Flareon"),
+                new PokemonMaster("Charmander", 1, "Charmeleon")
+                };
+                // Use "Environment.Exit(0);" if you want to implement an exit of the console program
+                PokemonMenu(pokemonMasters);
+            }
+            static void PokemonMenu(List<PokemonMaster> pokemans)
+            {
+                // From now on myDictionary is available for any menu option 
+                var myDictionary = new Dictionary<string, string>();
+    
+                while (true)
+                { // <- loop until exit option (key 'Q') is pressed
+                    Console.WriteLine("Welcome to Pokemon Pocket App!");
+                    Console.WriteLine("(1). Add Pokemon to my pocket");
+                    Console.WriteLine("(2). List Pokemon(s) in my pocket");
+                    Console.WriteLine("(3). Check if I can evolve Pokemon");
+                    Console.WriteLine("(4). Evolve Pokemon\n");
+                    Console.Write("Please only enter [1,2,3,4] or Q to exit:");
+    
+                    char menu = Convert.ToChar(Console.ReadLine());
+    
+                    if (menu == '1')
+                    { //Part 1
+                        Console.Write("Enter Pokemon Name :");
+                        string name = Console.ReadLine();
+                        Console.Write("Enter Pokemon HP : ");
+                        int hp = Convert.ToInt32(Console.ReadLine());
+    
+                        Console.Write("Enter Pokemon EXP : ");
+                        int exp = Convert.ToInt32(Console.ReadLine());
+                        if (myDictionary.Count <= 0)
+                        {
+                            myDictionary.Add("Pokemon's Name", name);
+                            myDictionary.Add("Pokemon's HP", hp.ToString());
+                            myDictionary.Add("Pokemon's EXP", exp.ToString());
+                            Console.WriteLine("Pokemon has been added!");
+    
+                        }
+                    }
+                    else if (menu == '2')
+                    { //Part 2
+                        foreach (var v in myDictionary)
+                            Console.WriteLine(string.Format("{1}: {0}", v.Value, v.Key));
+                    }
+    
+                    else if (menu == '3') //Part  3
+                    {
+                        if (!myDictionary.TryGetValue("Pokemon's Name", out var myPokemon))
+                        {
+                            // No pokemon in pocket so just exit
+    
+                            Console.WriteLine("You have no pokemon!");
+                            continue;
+                        }
+    
+                        var matchedPokemon = pokemans.Find(p => p.Name == myPokemon);
+    
+                        if (matchedPokemon != default)
+                        {
+                            Console.WriteLine("Can evolve a pokeman!");
+                            Console.WriteLine($"{matchedPokemon.Name} --> {matchedPokemon.EvolveTo}");
+                        }
+                    }
+                    else if (menu == 'Q')
+                    {
+                        Console.WriteLine("App exited!");
+                        Environment.Exit(0);
+                    }
+                }
+            }
+        }
+    }
